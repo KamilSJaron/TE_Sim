@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <stdlib.h> 
+#include <stdlib.h>
 
 #include "random.h"
 #include "time.h"
@@ -11,7 +11,7 @@ using namespace std;
 
 int main ()
 {
-    
+
   clock_t time;
   double seconds;
   int trials=10000;;
@@ -19,18 +19,18 @@ int main ()
   int failures=0;
   int genstatsF=0;
   int genstatsS=0;
-    
+
   cout << endl;
   time = clock();
   for (int run=1; run<=trials; run++)
   {
-      
+
 
     std::cout<<"Trial #: "<<run<<std::endl;
 	std::ifstream fin("input.txt");
 	if (! fin.is_open())
 	  { cout << "Error opening file"; exit (1); }
-	
+
 	// Initialize population size & whether to generate new population or load from file
 	int N,generations;
     double invRate;
@@ -43,7 +43,7 @@ int main ()
 	else if (tempChar[0]=='N') fromFile = false;
 	fin.getline(tempChar,100);
 	N= strtol(tempChar,0,10);
-   
+
     fin.getline(tempChar,100);//ut
     fin.getline(tempChar,100);//vt
     fin.getline(tempChar,100);//sa
@@ -55,16 +55,16 @@ int main ()
     invRate = strtod(tempChar,0);
     fin.getline(tempChar,100);//generations
     generations = strtol(tempChar,0,10);
-      
+
 	fin.close();
 	Population * pop = new Population(N);
 	Population * temp;
-	
+
 	int size = pop->GetPopSize();
 	bool clonal = false;//Genome::clonal;
-	
+
 	pop->Initialize(clonal, fromFile);
-    
+
 
 //	pop->PrintParameters("detailed.txt");
       if (run==1) {
@@ -76,11 +76,11 @@ int main ()
     int invasionsPerGeneration = N*invRate;
 	int gen = 1;
     int tefamily=0;
-    
+
 	for (gen; gen <= generations; gen++)
 	{
-/*
 
+ /*
 		if (pop->GetPopulationTECount() == 0)
 		{
 		  cout << "No TEs at generation [" << gen << "]." << endl << endl;
@@ -91,7 +91,7 @@ int main ()
           std::cout<<"Running totals- Failures: "<<failures<<", Successess: "<<successes<<std::endl;
 		  break;
 		}
-    
+
         if((pop->GetPopulationTECount()/size) > 1){
             cout<<" Success at generation ["<<gen<<"].\n\n";
 //            pop->SummaryStatistics("summary.txt", gen);
@@ -101,10 +101,10 @@ int main ()
             std::cout<<"Running totals- Failures: "<<failures<<", Successess: "<<successes<<std::endl;
             break;
         }
- 
+
 */
-        
- /*
+
+ /* version 1
         if(pop->isExtinct(0)){
             cout << "No TEs of invading family at generation [" << gen << "]." << endl << endl;
             failures++;
@@ -113,9 +113,9 @@ int main ()
             break;
 
         }
-        
-        
-        
+
+
+
         if(pop->GetPopulationMeanFamilyCount()>=(initialFams+1)){
             cout<<" Success at generation ["<<gen<<"].\n";
             successes++;
@@ -124,62 +124,62 @@ int main ()
             std::cout<<"Running totals- Failures: "<<failures<<", Successess: "<<successes<<std::endl;
             break;
         }
- 
+
  */
- 
+
 		// REPRODUCTION
-        
-        
-        
+
+
+
 		temp = pop->SexualReproduction();
 		delete pop;
 		pop = temp;
-         
 
-        
+
+
 		// TRANSPOSITION & LOSS
 		pop->TranspositionAndLoss();
 		cout << ".";
-        
-        
-        
 
+
+
+// commented in v1
 		if (gen%100==0)
 		{
-            
+
 		  cout << endl;
 		  pop->SummaryStatistics("detailed.txt", gen);
 
-            
+
 		}
- 
+
 
 		if (gen==generations)
 		{
 		  pop->RecordPopulation("2200WITHSELECTION.txt", gen);
           pop->FamilyStats(tefamily);
 		}
-
+// comment end v1
       if(gen%100==0)
           cout<<endl;
-        
+
 	}
-	
+
 	delete pop;
-    
-    
+
+
   }
     time = clock()-time;
     std::cout<<"GRAND TOTALS AND ACCOUNTING\n";
     std::cout<<"Failures: "<<failures<<std::endl<<"Successes: "<<successes<<std::endl;
-    
+
     if(failures!=0){
         genstatsF/=failures;
         std::cout<<"Average generation at failure = "<<(genstatsF)<<std::endl;
     }else{
         std::cout<<"No failures!\n";
     }
-    
+
     if(successes!=0){
         genstatsS/=successes;
         std::cout<<"Average generation where success was defined = "<<(genstatsS)<<std::endl;
@@ -187,7 +187,7 @@ int main ()
         std::cout<<"No successes!\n";
     }
     printf ("\nTotal runtime was: %d clicks (%f seconds).\n",time,((float)time)/CLOCKS_PER_SEC);
-    
-    
+
+
   return 0;
 }
