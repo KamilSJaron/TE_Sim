@@ -1,3 +1,4 @@
 *.o
-test
 .DS_Store
+TE_Sim_invasion
+TE_Sim_equil

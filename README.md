@@ -1,7 +1,8 @@
 # TE_Sim
-TE Population Simulator_Written by Elie Dolgin, Modified by Sam Groth
 
-There are two slightly different versions of this program. 
+TE Population Simulator_Written by Elie Dolgin, modified by Sam Groth and now forked by Kamil S. Jaron
+
+There are two slightly different versions of this program.
 
 Equilibrium allows you to drop a certain number of TE families into the genome and let the genome equilibrate.
 
@@ -17,9 +18,11 @@ Within the folder, provide a command file titled: input.txt.
 
 type the command within the folder (if you don’t have your path variable pointing to the folder)
 
-./test
+`./TE_Sim_invasion`
 
- 
+ or
+
+`./TE_Sim_equil`
 
 Input.txt details
 
@@ -33,7 +36,7 @@ Line 5: sa (a, selection parameter, read by genome)
 Line 6: sb (b, synergism within family selection parameter, read by genome)
 Line 7: faf (frequency affecting fitness (1.0 is default, allowing for some to be neutral for values <1.0) ,read by genome)
 Line 8: initial family count (initialTE, read by genome)
-Line 9: (old run parameter, leave at 0) 
+Line 9: (old run parameter, leave at 0)
 Line 10: (generations)
 
 Not in input (hardwired) in genome.cpp
@@ -48,7 +51,7 @@ Population.cpp: Poisson(29) value can be changed to Poisson(x)
 
 
 Regarding equilibrium vs. invasion
-In population.cpp 
+In population.cpp
 n = initialTE (from input.txt via Genome.cpp)
 
 if n=0 a for loop is cutout
